@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
@@ -25,7 +26,7 @@ public class Main extends JFrame {
 
 	private String[] klassen = { "5A", "5B", "5C", "5D", "6A", "6B", "6C", "6D", "7A", "7B", "7C", "7D", "8A", "8B",
 			"9A", "9B", "9C", "9D" };
-	private String[] replaceses = { "br","<", ">", "td class=", "td", "tr", "/tr",  "/", "\"", "ungerade", "gerade",
+	private String[] replaceses = { "br", "<", ">", "td class=", "td", "tr", "/tr", "/", "\"", "ungerade", "gerade",
 			"Ver", "etung", "Klasse", "Fach", "Raum", "Anmerkung", "\\s+" };
 	private String[] input2;
 	private ArrayList<String> output = new ArrayList<>();
@@ -34,6 +35,8 @@ public class Main extends JFrame {
 	private ArrayList<String> Fach = new ArrayList<>();
 	private int off = 0;
 	private String inputLine;
+	private String petName;
+	private String profile = "";
 	private JTextPane textPane;
 
 	/**
@@ -114,12 +117,23 @@ public class Main extends JFrame {
 			}
 		} catch (Exception e) {
 		}
+		try {
+			File file = new File("src/profil.txt");
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String b;
+			while ((b = br.readLine()) != null) {
+				profile = b;
+				
+			}
+		} catch (Exception e) {
+		}
 
 		JComboBox klasse = new JComboBox(klassen);
 		klasse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox cb = (JComboBox) e.getSource();
-				String petName = (String) cb.getSelectedItem();
+				petName = (String) cb.getSelectedItem();
 				outputer(petName, output);
 			}
 		});
@@ -136,8 +150,27 @@ public class Main extends JFrame {
 		textPane.setEditable(false);
 		textPane.setBounds(10, 11, 414, 181);
 		contentPane.add(textPane);
-		String petName = (String) klasse.getSelectedItem();
-		outputer(petName, output);
+
+		JButton pridole = new JButton("save profile");
+		pridole.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					FileWriter write = new FileWriter("src/profil.txt");
+					write.write(petName);
+					write.flush();
+					write.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+		});
+		pridole.setBounds(335, 215, 89, 23);
+		contentPane.add(pridole);
+		
+		
+		outputer(profile, output);
 
 	}
 
@@ -149,10 +182,9 @@ public class Main extends JFrame {
 			String l = "";
 			String f = "";
 			for (int i = 0; i < c.size(); i++) {
-				f = Fach.get(Fach.indexOf(b.get(c.get(i) + 1))+ 1);
-				
-				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Fach: " + f  + " Raum: "
-						+ b.get(c.get(i) + 2) + "\n";
+				f = Fach.get(Fach.indexOf(b.get(c.get(i) + 1)) + 1);
+
+				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Fach: " + f + " Raum: " + b.get(c.get(i) + 2) + "\n";
 			}
 			textPane.setText(g);
 		} else {
