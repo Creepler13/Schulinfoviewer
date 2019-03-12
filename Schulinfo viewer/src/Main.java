@@ -21,7 +21,8 @@ import javax.swing.JList;
 
 public class Main extends JFrame {
 
-	private String[] klassen = { "5A", "5B", "5C", "5D", "6A", "6B", "9D" };
+	private String[] klassen = { "5A", "5B", "5C", "5D", "6A", "6B", "6C", "6D", "7A", "7B", "7C", "7D", "8A", "8B",
+			"9A", "9B", "9C", "9D" };
 	private String[] replaceses = { "<", ">", "td class=", "td", "tr", "/tr", "br", "/", "\"", "ungerade", "gerade",
 			"Ver", "etung", "Klasse", "Fach", "Raum", "Anmerkung", "\\s+" };
 	private String[] input2;
@@ -89,10 +90,6 @@ public class Main extends JFrame {
 			output.add(input2[j]);
 		}
 
-		JButton refresh = new JButton("refresh");
-		refresh.setBounds(10, 203, 124, 47);
-		contentPane.add(refresh);
-
 		JComboBox klasse = new JComboBox(klassen);
 		klasse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -101,53 +98,39 @@ public class Main extends JFrame {
 				outputer(petName, output);
 			}
 		});
-		klasse.setBounds(194, 216, 82, 20);
+		klasse.setBounds(60, 216, 82, 20);
 		contentPane.add(klasse);
 
 		JTextPane txtpnKlasse = new JTextPane();
 		txtpnKlasse.setEditable(true);
 		txtpnKlasse.setText("klasse");
-		txtpnKlasse.setBounds(144, 216, 40, 20);
+		txtpnKlasse.setBounds(10, 216, 40, 20);
 		contentPane.add(txtpnKlasse);
-		
+
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		textPane.setBounds(10, 11, 414, 181);
 		contentPane.add(textPane);
-
-		System.out.println(output.indexOf("9D"));
-		System.out.println(output.toString());
-
 		String petName = (String) klasse.getSelectedItem();
-		System.out.println(petName);
-		outputer("9D", output);
-		
-		test();
+		outputer(petName, output);
+
 	}
 
 	public void outputer(String a, ArrayList<String> b) {
 
 		if (indexOfAll(a, b).size() != 0) {
 			ArrayList<Integer> c = indexOfAll(a, b);
-			System.out.println(indexOfAll(a, b));
 			String g = "";
 			for (int i = 0; i < c.size(); i++) {
-				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Lehrer: " + b.get(c.get(i) + 1)
-						+" Raum: "+ b.get(c.get(i) + 2) +"\n";
+				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Lehrer: " + b.get(c.get(i) + 1) + " Raum: "
+						+ b.get(c.get(i) + 2) + "\n";
 			}
-		textPane.setText(g);
+			textPane.setText(g);
 		} else {
 			textPane.setText("Nichts");
 		}
 	}
 
-	
-	public void test() {
-		
-	
-	}
-	
-	
 	static <T> ArrayList<Integer> indexOfAll(T obj, ArrayList<T> list) {
 		final ArrayList<Integer> indexList = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
@@ -155,7 +138,7 @@ public class Main extends JFrame {
 				indexList.add(i);
 			}
 		}
-		System.out.println(indexList);
+
 		return indexList;
 	}
 }
