@@ -25,7 +25,7 @@ public class Main extends JFrame {
 
 	private String[] klassen = { "5A", "5B", "5C", "5D", "6A", "6B", "6C", "6D", "7A", "7B", "7C", "7D", "8A", "8B",
 			"9A", "9B", "9C", "9D" };
-	private String[] replaceses = { "<", ">", "td class=", "td", "tr", "/tr", "br", "/", "\"", "ungerade", "gerade",
+	private String[] replaceses = { "br","<", ">", "td class=", "td", "tr", "/tr",  "/", "\"", "ungerade", "gerade",
 			"Ver", "etung", "Klasse", "Fach", "Raum", "Anmerkung", "\\s+" };
 	private String[] input2;
 	private ArrayList<String> output = new ArrayList<>();
