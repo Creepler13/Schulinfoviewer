@@ -130,6 +130,7 @@ public class Main extends JFrame {
 		}
 
 		JComboBox klasse = new JComboBox(klassen);
+		 
 		klasse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox cb = (JComboBox) e.getSource();
@@ -140,6 +141,8 @@ public class Main extends JFrame {
 		klasse.setBounds(60, 216, 82, 20);
 		contentPane.add(klasse);
 
+		
+		petName = (String)klasse.getSelectedItem();				
 		JTextPane txtpnKlasse = new JTextPane();
 		txtpnKlasse.setEditable(true);
 		txtpnKlasse.setText("klasse");
