@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
@@ -28,6 +30,8 @@ public class Main extends JFrame {
 	private String[] input2;
 	private ArrayList<String> output = new ArrayList<>();
 	private JPanel contentPane;
+	private ArrayList<String> Lehrer = new ArrayList<>();
+	private ArrayList<String> Fach = new ArrayList<>();
 	private int off = 0;
 	private String inputLine;
 	private JTextPane textPane;
@@ -90,6 +94,27 @@ public class Main extends JFrame {
 			output.add(input2[j]);
 		}
 
+		try {
+			File file = new File("src/lehrer.txt");
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String b;
+			while ((b = br.readLine()) != null) {
+				Lehrer.add(b);
+			}
+		} catch (Exception e) {
+		}
+		try {
+			File file = new File("src/fach.txt");
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String b;
+			while ((b = br.readLine()) != null) {
+				Fach.add(b);
+			}
+		} catch (Exception e) {
+		}
+
 		JComboBox klasse = new JComboBox(klassen);
 		klasse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,8 +146,12 @@ public class Main extends JFrame {
 		if (indexOfAll(a, b).size() != 0) {
 			ArrayList<Integer> c = indexOfAll(a, b);
 			String g = "";
+			String l = "";
+			String f = "";
 			for (int i = 0; i < c.size(); i++) {
-				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Lehrer: " + b.get(c.get(i) + 1) + " Raum: "
+				f = Fach.get(Fach.indexOf(b.get(c.get(i) + 1))+ 1);
+				
+				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Fach: " + f  + " Raum: "
 						+ b.get(c.get(i) + 2) + "\n";
 			}
 			textPane.setText(g);
