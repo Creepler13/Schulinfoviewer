@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JList;
 
 public class Main extends JFrame {
 
@@ -87,11 +89,6 @@ public class Main extends JFrame {
 			output.add(input2[j]);
 		}
 
-		textPane = new JTextPane();
-		textPane.setEditable(false);
-		textPane.setBounds(10, 11, 313, 181);
-		contentPane.add(textPane);
-
 		JButton refresh = new JButton("refresh");
 		refresh.setBounds(10, 203, 124, 47);
 		contentPane.add(refresh);
@@ -112,6 +109,11 @@ public class Main extends JFrame {
 		txtpnKlasse.setText("klasse");
 		txtpnKlasse.setBounds(144, 216, 40, 20);
 		contentPane.add(txtpnKlasse);
+		
+		textPane = new JTextPane();
+		textPane.setEditable(false);
+		textPane.setBounds(10, 11, 414, 181);
+		contentPane.add(textPane);
 
 		System.out.println(output.indexOf("9D"));
 		System.out.println(output.toString());
@@ -119,6 +121,8 @@ public class Main extends JFrame {
 		String petName = (String) klasse.getSelectedItem();
 		System.out.println(petName);
 		outputer("9D", output);
+		
+		test();
 	}
 
 	public void outputer(String a, ArrayList<String> b) {
@@ -129,14 +133,21 @@ public class Main extends JFrame {
 			String g = "";
 			for (int i = 0; i < c.size(); i++) {
 				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Lehrer: " + b.get(c.get(i) + 1)
-						+" Raum: "+ b.get(c.get(i) + 2);
+						+" Raum: "+ b.get(c.get(i) + 2) +"\n";
 			}
-			textPane.setText(g);
+		textPane.setText(g);
 		} else {
 			textPane.setText("Nichts");
 		}
 	}
 
+	
+	public void test() {
+		
+	
+	}
+	
+	
 	static <T> ArrayList<Integer> indexOfAll(T obj, ArrayList<T> list) {
 		final ArrayList<Integer> indexList = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
@@ -144,7 +155,7 @@ public class Main extends JFrame {
 				indexList.add(i);
 			}
 		}
+		System.out.println(indexList);
 		return indexList;
 	}
-
 }
