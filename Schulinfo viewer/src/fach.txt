@@ -15,7 +15,7 @@ Biologie
 CHE
 Chemie
 F2
-Franz
+2.Fremdsprache
 SP
 Sport
 KU

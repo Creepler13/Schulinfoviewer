@@ -21,10 +21,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JList;
+import javax.swing.JTextField;
 
 public class Main extends JFrame {
 
-	private String[] klassen = { "5A", "5B", "5C", "5D", "6A", "6B", "6C", "6D", "7A", "7B", "7C", "7D", "8A", "8B",
+	private String[] klassen = { "5A", "5B", "5C", "5D", "6A", "6B", "6C", "6D", "7A", "7B", "7C", "7D", "8A", "8B","8C","8D",
 			"9A", "9B", "9C", "9D" };
 	private String[] replaceses = { "br", "<", ">", "td class=", "td", "tr", "/tr", "/", "\"", "ungerade", "gerade",
 			"Ver", "etung", "Klasse", "Fach", "Raum", "Anmerkung", "\\s+" };
@@ -38,6 +39,7 @@ public class Main extends JFrame {
 	private String petName;
 	private String profile = "";
 	private JTextPane textPane;
+	private JTextField txtProfilAusgewhlt;
 
 	/**
 	 * Launch the application.
@@ -62,7 +64,7 @@ public class Main extends JFrame {
 	 */
 	public Main() throws IOException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 585, 274);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,6 +75,13 @@ public class Main extends JFrame {
 
 		String input = null;
 
+		txtProfilAusgewhlt = new JTextField();
+		txtProfilAusgewhlt.setEditable(false);
+		txtProfilAusgewhlt.setText("Profil ausgewählt :");
+		txtProfilAusgewhlt.setBounds(170, 217, 153, 19);
+		contentPane.add(txtProfilAusgewhlt);
+		txtProfilAusgewhlt.setColumns(10);
+
 		while (!(inputLine = in.readLine()).equals("<table><tr>")) {
 		}
 
@@ -80,15 +89,18 @@ public class Main extends JFrame {
 			if (inputLine.equals("<table><tr>")) {
 
 			}
-
+			if(!inputLine.equals("\\s+")) {
 			input = input + inputLine;
-
+			} else {
+				input = input + "$";
+			}
 		}
 
 		in.close();
 
 		for (int i = 0; i < replaceses.length; i++) {
 			input = input.replaceAll(replaceses[i], " ");
+			System.out.println(input);
 		}
 
 		input2 = input.split(" ");
@@ -105,6 +117,7 @@ public class Main extends JFrame {
 			while ((b = br.readLine()) != null) {
 				Lehrer.add(b);
 			}
+			System.out.println(Lehrer);
 		} catch (Exception e) {
 		}
 		try {
@@ -117,20 +130,9 @@ public class Main extends JFrame {
 			}
 		} catch (Exception e) {
 		}
-		try {
-			File file = new File("src/profil.txt");
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
-			String b;
-			while ((b = br.readLine()) != null) {
-				profile = b;
-				
-			}
-		} catch (Exception e) {
-		}
 
 		JComboBox klasse = new JComboBox(klassen);
-		 
+
 		klasse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox cb = (JComboBox) e.getSource();
@@ -138,20 +140,19 @@ public class Main extends JFrame {
 				outputer(petName, output);
 			}
 		});
-		klasse.setBounds(60, 216, 82, 20);
+		klasse.setBounds(88, 216, 82, 20);
 		contentPane.add(klasse);
 
-		
-		petName = (String)klasse.getSelectedItem();				
+		petName = (String) klasse.getSelectedItem();
 		JTextPane txtpnKlasse = new JTextPane();
 		txtpnKlasse.setEditable(true);
 		txtpnKlasse.setText("klasse");
-		txtpnKlasse.setBounds(10, 216, 40, 20);
+		txtpnKlasse.setBounds(10, 216, 66, 20);
 		contentPane.add(txtpnKlasse);
 
 		textPane = new JTextPane();
 		textPane.setEditable(false);
-		textPane.setBounds(10, 11, 414, 181);
+		textPane.setBounds(10, 11, 549, 181);
 		contentPane.add(textPane);
 
 		JButton pridole = new JButton("save profile");
@@ -162,6 +163,7 @@ public class Main extends JFrame {
 					write.write(petName);
 					write.flush();
 					write.close();
+					setprofile();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -169,29 +171,55 @@ public class Main extends JFrame {
 
 			}
 		});
-		pridole.setBounds(335, 215, 89, 23);
+		setprofile();
+		pridole.setBounds(331, 215, 139, 23);
 		contentPane.add(pridole);
-		
-		
+
 		outputer(profile, output);
 
 	}
 
 	public void outputer(String a, ArrayList<String> b) {
-
 		if (indexOfAll(a, b).size() != 0) {
 			ArrayList<Integer> c = indexOfAll(a, b);
 			String g = "";
 			String l = "";
 			String f = "";
+			String s = "";
+			String r = "";
 			for (int i = 0; i < c.size(); i++) {
 				f = Fach.get(Fach.indexOf(b.get(c.get(i) + 1)) + 1);
-
-				g = g + " Stunde: " + b.get(c.get(i) - 1) + " Fach: " + f + " Raum: " + b.get(c.get(i) + 2) + "\n";
+				l = Lehrer.get(Lehrer.indexOf(b.get(c.get(i) + 4)) + 1);
+				if(b.get(c.get(i)-1).equals("$")) {
+					s = " ";
+				} else {
+					s = b.get(c.get(i) - 1);
+				}
+				if(b.get(c.get(i)+ 2).equals("$")) {
+					r = " ";
+				} else {
+				r = b.get(c.get(i) - 1);
+				}
+				g = g + " Stunde: " + s + " Fach: " + f + " Raum: " + r
+						+ " Lehrer: " + l + "\n";
 			}
 			textPane.setText(g);
 		} else {
 			textPane.setText("Nichts");
+		}
+	}
+
+	public void setprofile() {
+		try {
+			File file = new File("src/profil.txt");
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String b;
+			while ((b = br.readLine()) != null) {
+				profile = b;
+				txtProfilAusgewhlt.setText("Profil ausgewählt : " + b);
+			}
+		} catch (Exception e) {
 		}
 	}
 
